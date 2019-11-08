@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Cyber Duck
+                    Cyber Ducks 
                 </div>
 
                 <div class="links">
