@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use Illuminate\Http\Request;
+use Validator,Redirect,Response,File;
 
 class CompaniesController extends Controller
 {
@@ -14,7 +15,7 @@ class CompaniesController extends Controller
      */
     public function index()
     {
-        return view('admin/company/index');
+        return view('admin/companies/index');
     }
 
     /**
@@ -24,7 +25,7 @@ class CompaniesController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin/companies/create');
     }
 
     /**
@@ -35,7 +36,32 @@ class CompaniesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request('name'));
+
+        $request->validate([
+            'name' => 'required|string',
+            'email' => 'email',
+            'logo' => 'image|mimes:jpeg,png,jpg,gif,svg',
+            // 'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|dimensions:min_width=100,min_height=100',
+            'website' => 'url',
+        ]);
+
+        
+        if ($image = $request->file('logo')) {
+            $imageName = time().'.'.$request->logo->extension();  
+            $request->logo->move(public_path('logo'), $imageName);
+        }
+    
+        
+        
+        $company = Company::create([
+            'name' => $request->get('name'),
+            'email' => $request->get('email'),
+            'logo' => $imageName,
+            'website' => $request->get('website'),
+        ]);
+        
+        return redirect('/admin/companies/'.$company->id);
     }
 
     /**
@@ -46,7 +72,7 @@ class CompaniesController extends Controller
      */
     public function show(Company $company)
     {
-        //
+        return "hello";
     }
 
     /**

@@ -7,6 +7,11 @@
 @stop
 
 @section('content')
+	<a 	href="/admin/companies/create"
+		class="btn btn-primary"
+	>
+			New
+	</a>
 	<p>Click on the tabs on the left to access the items</p>
 @stop
 
