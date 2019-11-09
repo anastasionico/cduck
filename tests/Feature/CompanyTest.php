@@ -15,19 +15,6 @@ class CompanyTest extends TestCase
 {
     use RefreshDatabase;
 
-    // /** @test */
-    // public function an_admin_can_read_all_the_company()
-    // {
-    //     //Given we have company in the database
-    //     $company = factory(Company::class)->create();
-        
-    //     //When user visit the tasks page
-    //     $response = $this->get('/admin/companies');
-        
-    //     //He should be able to read the task
-    //     $response->assertSee($company->name);
-    // }
-
     /** @test */
     public function an_admin_can_create_a_company()
     {
@@ -67,5 +54,51 @@ class CompanyTest extends TestCase
 
 
         $response->assertSessionHasErrors('name');
+    }
+
+    /** @test */
+    public function an_admin_can_see_all_companies(){
+        $this->withoutMiddleware();
+        Storage::fake('img');
+
+        //Given an admin and some companies
+        $admin = factory(User::class)->create();
+        
+        $company = factory(Company::class)->create([
+            'logo' => UploadedFile::fake()->image('logo.jpg', 100, 100),
+        ]);                
+
+        //When the admin send a get request to the company page
+        $response = $this->actingAs($admin)
+             ->get('/admin/companies');        
+        
+        //Then the admin will see all the companies
+        $response->assertSee($company->name);             
+    }
+
+    /** @test */
+    public function an_admin_can_only_see_ten_company_per_page(){
+        $this->withoutMiddleware();
+        Storage::fake('img');
+
+        //Given an admin and 11 companies
+        $admin = factory(User::class)->create();
+        
+        $companies = factory(Company::class, 11)->create([
+            'logo' => UploadedFile::fake()->image('logo.jpg', 100, 100),
+        ]);                
+
+        
+        //When the admin send a get request to the company second page
+        $queryParameters = 'page=2';
+        $response = $this->actingAs($admin)
+             ->get('/admin/companies' . '?page=2');        
+        
+        $this->assertEquals(11, Company::all()->count());
+        //Then the admin will see only one company
+
+        $response->assertDontSee($companies[9]->name);  
+        $response->assertSee($companies[10]->name);  
+
     }
 }

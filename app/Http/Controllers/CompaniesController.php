@@ -15,7 +15,9 @@ class CompaniesController extends Controller
      */
     public function index()
     {
-        return view('admin/companies/index');
+        $companies = Company::latest()->paginate(10);
+
+        return view('admin/companies/index', compact('companies'));
     }
 
     /**
@@ -46,7 +48,7 @@ class CompaniesController extends Controller
             'website' => 'url',
         ]);
 
-        
+
         if ($image = $request->file('logo')) {
             $imageName = time().'.'.$request->logo->extension();  
             $request->logo->move(public_path('logo'), $imageName);

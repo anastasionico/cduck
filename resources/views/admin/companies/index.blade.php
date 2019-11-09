@@ -13,6 +13,23 @@
 			New
 	</a>
 	<p>Click on the tabs on the left to access the items</p>
+
+	@foreach($companies as $company)
+		<div class="card" style="width: 20rem"> 
+		  	<img class="card-img-top" src="{{ $company->logo }}" alt="Card image cap">
+		  	<div class="card-body">
+			    <h5 class="card-title">{{ $company->id }} {{ $company->name }}</h5>
+			    <p class="card-text">{{ $company->email }}</p>
+		    	<a href="#" class="btn btn-primary">{{ $company->website }}</a>
+		  	</div>
+		</div>
+		
+		{{ $company->name }}
+
+	@endforeach	
+	
+
+	{{ $companies->links() }}
 @stop
 
 @section('css')
