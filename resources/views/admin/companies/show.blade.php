@@ -12,7 +12,7 @@
 	>
 		Back
 	</a>
-	
+
 	<a 	href="/admin/companies/{{$company->id}}/edit/"
 		class="btn btn-secondary"
 	>
@@ -27,6 +27,12 @@
 	    	<a href="#" class="btn btn-secondary">{{$company->website}}</a>
 	  	</div>
 	</div>
+
+	<form method="POST" action="/admin/companies/{{$company->id}}">
+	    {{csrf_field()}}
+        {{method_field('DELETE')}}
+	    <button class="btn btn-danger" type="submit">Delete</button>
+	</form>
 @stop
 
 @section('css')

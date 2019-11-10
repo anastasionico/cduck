@@ -22,6 +22,11 @@
 			    <p class="card-text">{{ $company->email }}</p>
 		    	<a href="#" class="btn btn-secondary">{{ $company->website }}</a>
 		    	<a href="/admin/companies/{{ $company->id }}" class="btn btn-primary">See</a>
+		    	<form method="POST" action="/admin/companies/{{$company->id}}">
+				    {{csrf_field()}}
+			        {{method_field('DELETE')}}
+				    <button class="btn btn-danger" type="submit">Delete</button>
+				</form>
 		  	</div>
 		</div>
 		

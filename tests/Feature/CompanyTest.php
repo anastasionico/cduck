@@ -139,14 +139,32 @@ class CompanyTest extends TestCase
         $company = factory(Company::class)->create([
             'logo' => UploadedFile::fake()->image('logo.jpg', 100, 100),
         ]);         
-
+        //When we update the name of the company
         $company->name = "NewName";
 
         $this->put('/admin/companies/'.$company->id, $company->toArray());
-        //The task should be updated in the database.
+        //Then the company should be updated in the database
         $this->assertDatabaseHas('companies',['id'=> $company->id , 'name' => 'NewName']);
 
     }
 
+    /** @test */
+    public function an_admin_can_delete_a_single_company()
+    {
+        $this->withoutMiddleware();
+        Storage::fake('img');
+
+        //Given an admin and a company
+        $admin = factory(User::class)->create();
+        
+        $company = factory(Company::class)->create([
+            'logo' => UploadedFile::fake()->image('logo.jpg', 100, 100),
+        ]);         
+
+        //When we send a delete request to the company
+        $this->delete('/admin/companies/'.$company->id);
     
+        //Then the company should not appear in the database
+        $this->assertDatabaseMissing('companies',['id'=> $company->id]);
+    }
 }

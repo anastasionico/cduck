@@ -106,7 +106,7 @@ class CompaniesController extends Controller
         ]);
         
 
-        Company::whereId($id)->update($validatedData);
+        Company::findOrFail($id)->update($validatedData);
 
 
         return redirect('/admin/companies/'.$id);
@@ -118,8 +118,10 @@ class CompaniesController extends Controller
      * @param  \App\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Company $company)
+    public function destroy($id)
     {
-        //
+        Company::findOrFail($id)->delete();
+
+        return redirect("/admin/companies");
     }
 }
