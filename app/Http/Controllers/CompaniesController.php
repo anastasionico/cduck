@@ -38,16 +38,12 @@ class CompaniesController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request('name'));
-
         $request->validate([
             'name' => 'required|string',
             'email' => 'email',
-            'logo' => 'image|mimes:jpeg,png,jpg,gif,svg',
-            // 'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|dimensions:min_width=100,min_height=100',
+            'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|dimensions:min_width=100,min_height=100',
             'website' => 'url',
         ]);
-
 
         if ($image = $request->file('logo')) {
             $imageName = time().'.'.$request->logo->extension();  
@@ -72,9 +68,14 @@ class CompaniesController extends Controller
      * @param  \App\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function show(Company $company)
+    // public function show(Company $company)
+    // {
+    //     dd($company->id);
+    //     return view('/admin/companies/show', compact('company'));
+    // }
+    public function show($id)
     {
-        return "hello";
+        return view('/admin/companies/show', ['company' => Company::findOrFail($id)]);
     }
 
     /**
@@ -83,9 +84,9 @@ class CompaniesController extends Controller
      * @param  \App\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function edit(Company $company)
+    public function edit($id)
     {
-        //
+        return view("admin/companies/edit", ['company' => Company::findOrFail($id)]);
     }
 
     /**
@@ -95,9 +96,20 @@ class CompaniesController extends Controller
      * @param  \App\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Company $company)
+    public function update(Request $request, $id)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|string',
+            'email' => 'email',
+            'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|dimensions:min_width=100,min_height=100',
+            'website' => 'url',
+        ]);
+        
+
+        Company::whereId($id)->update($validatedData);
+
+
+        return redirect('/admin/companies/'.$id);
     }
 
     /**

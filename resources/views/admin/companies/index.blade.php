@@ -20,7 +20,8 @@
 		  	<div class="card-body">
 			    <h5 class="card-title">{{ $company->id }} {{ $company->name }}</h5>
 			    <p class="card-text">{{ $company->email }}</p>
-		    	<a href="#" class="btn btn-primary">{{ $company->website }}</a>
+		    	<a href="#" class="btn btn-secondary">{{ $company->website }}</a>
+		    	<a href="/admin/companies/{{ $company->id }}" class="btn btn-primary">See</a>
 		  	</div>
 		</div>
 		
