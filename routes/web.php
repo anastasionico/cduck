@@ -21,23 +21,14 @@ Route::get('/admin', function () {
 });
 
 // Authentication Routes without registration
-$this->get('login', 'Auth\LoginController@showLoginForm')->name('login');
-$this->post('login', 'Auth\LoginController@login');
-$this->post('logout', 'Auth\LoginController@logout')->name('logout');
-if ($options['reset'] ?? true) {
-    $this->resetPassword();
-}
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('login', 'Auth\LoginController@login');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
-// Password Confirmation Routes...
-if ($options['confirm'] ??
-    class_exists($this->prependGroupNamespace('Auth\ConfirmPasswordController'))) {
-    $this->confirmPassword();
-}
+Route::resetPassword();
+Route::confirmPassword();
+Route::emailVerification();
 
-// Email Verification Routes...
-if ($options['verify'] ?? false) {
-    $this->emailVerification();
-}
 
 
 Route::get('/home', 'HomeController@index')->name('home');

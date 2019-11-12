@@ -29,9 +29,6 @@
 				</form>
 		  	</div>
 		</div>
-		
-		{{ $company->name }}
-
 	@endforeach	
 	
 

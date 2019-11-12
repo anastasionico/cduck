@@ -7,9 +7,15 @@
 @stop
 
 @section('content')
-	@error('name','email','logo','website')
-    	<div class="alert alert-danger">{{ $message }}</div>
-	@enderror
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li><div class="alert alert-danger">{{ $error }}</div></li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
 	<form method="POST" action="/admin/employees">
 	    @csrf
@@ -26,7 +32,7 @@
 
     	<div class="form-group">
     		<label for="company">Company</label>
-            <select id="company" name="company_id">
+            <select id="company" name="company_id" class="form-control">
                 <option value=''>Unemployed</option>
                 @foreach($companies as $company)
                     <option value="{{$company->id}}">{{$company->name}}</option>

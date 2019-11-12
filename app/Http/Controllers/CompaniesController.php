@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Company;
 use Illuminate\Http\Request;
 use Validator,Redirect,Response,File;
+use Illuminate\Support\Facades\Storage;
+
 
 class CompaniesController extends Controller
 {
@@ -128,8 +130,18 @@ class CompaniesController extends Controller
      */
     public function destroy($id)
     {
-        Company::findOrFail($id)->delete();
 
+        $company = Company::findOrFail($id);
+
+        $imageRemoved = $this->removeImage($company->logo);
+
+        $company->delete();
+        
         return redirect("/admin/companies");
+    }
+
+    public function removeImage(string $logo) :bool
+    {  
+        return File::delete(public_path('/img/' . $logo));
     }
 }
