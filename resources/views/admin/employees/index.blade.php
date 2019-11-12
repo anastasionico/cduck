@@ -23,7 +23,11 @@
 			    </h5>
 			    <p class="card-text">{{ $employee->email ." ". $employee->phone }}</p>
 
-		    	<a href="/admin/companies/{{ $employee->company->id}}" class="btn btn-secondary"><b>Company</b> {{ $employee->company->name}}</a>
+				@if($employee->company)
+				<a href="/admin/companies/{{ $employee->company->id}}" class="btn btn-secondary"><b>Company</b> {{ $employee->company->name}}</a>
+				@endif
+
+		    	
 		    	<a href="/admin/employees/{{ $employee->id }}" class="btn btn-primary">See</a>
 		    	<form method="POST" action="/admin/employees/{{$employee->id}}">
 				    {{csrf_field()}}

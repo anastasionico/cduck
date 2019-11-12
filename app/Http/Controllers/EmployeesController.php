@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Employee;
+use App\Company;
 use Illuminate\Http\Request;
 
 class EmployeesController extends Controller
@@ -16,12 +17,6 @@ class EmployeesController extends Controller
     {
         $employees = Employee::all();
         
-
-        
-
-        
-        // $employees = Employee::with('company')->get();   
-        //  dd($employees);
         return view('admin/employees/index', compact('employees'));
     }
 
@@ -32,7 +27,9 @@ class EmployeesController extends Controller
      */
     public function create()
     {
-        //
+        $companies = Company::all();
+        
+        return view('admin/employees/create', compact('companies'));
     }
 
     /**
@@ -43,7 +40,24 @@ class EmployeesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $request->validate([
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'company_id' => 'integer||nullable',
+            'email' => 'unique:employees,email',
+            'phone' => 'string',
+        ]);
+        
+        $employee = Employee::create([
+            'first_name' => $request->get('first_name'),
+            'last_name' => $request->get('last_name'),
+            'company_id' => $request->get('company_id'),
+            'email' => $request->get('email'),
+            'phone' => $request->get('phone')
+        ]);
+        
+        return redirect('/admin/employees/'.$employee->id);
     }
 
     /**
@@ -52,9 +66,9 @@ class EmployeesController extends Controller
      * @param  \App\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function show(Employee $employee)
+    public function show($id)
     {
-        //
+        return view('/admin/employees/show', ['employee' => Employee::findOrFail($id)]);
     }
 
     /**
@@ -63,9 +77,9 @@ class EmployeesController extends Controller
      * @param  \App\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function edit(Employee $employee)
+    public function edit($id)
     {
-        //
+        return view("admin/employees/edit", ['employee' => Employee::findOrFail($id)]);
     }
 
     /**

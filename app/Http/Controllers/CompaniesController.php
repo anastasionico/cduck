@@ -40,7 +40,7 @@ class CompaniesController extends Controller
     {
         $request->validate([
             'name' => 'required|string',
-            'email' => 'email',
+            'email' => 'unique:companies,email'
             'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|dimensions:min_width=100,min_height=100',
             'website' => 'url',
         ]);
