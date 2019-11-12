@@ -17,10 +17,10 @@ class CreateEmployeesTable extends Migration
             $table->bigIncrements('id');
             $table->string('first_name')->nullable(false);
             $table->string('last_name')->nullable(false);
-            $table->bigInteger('company');
+            $table->bigInteger('company_id');
             $table->string('email')->unique();
             $table->string('phone');
-            $table->foreign('company')->references('id')->on('companies');
+            $table->foreign('company_id')->references('id')->on('companies');
         });
     }
 

@@ -13,7 +13,6 @@
 
     <form method="POST" action="/admin/companies/{{$company->id}}"  enctype="multipart/form-data">
         @csrf
-        {{-- @method('PUT') --}}
         {{ method_field('PUT') }}
   		<div class="form-group">
     		<label for="name">Name</label>

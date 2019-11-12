@@ -32,5 +32,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function(){
 
 
     Route::resource('companies', 'CompaniesController');	    
+    Route::resource('employees', 'EmployeesController');	    
 });
 

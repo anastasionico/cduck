@@ -4,13 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Company extends Model
+class Employee extends Model
 {
  	protected $guarded = [];
     public $timestamps = false;
 
-    public function employee()
-    {
-        return $this->hasMany('App\Employee');
-    }
+    public function company() {
+	    return $this->belongsTo('App\Company');
+	}
 }
+
