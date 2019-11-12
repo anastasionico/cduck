@@ -22,8 +22,17 @@
 	<div class="card w-50"> 
 	  	<div class="card-body">
 		    <h5 class="card-title">{{$employee->first_name}} {{$employee->last_name}}</h5>
-		    <p class="card-text">{{$employee->email}}</p>
+		    
+			<p class="card-text">{{$employee->email}}</p>
+			
 	    	<b>{{$employee->phone}}</b>
+
+			@if($employee->company)
+				<a href="/admin/companies/{{ $employee->company->id}}" class="btn btn-secondary d-block">
+					<b>Company</b> {{ $employee->company->name}}
+				</a>
+			@endif
+			
 	  	</div>
 	</div>
 

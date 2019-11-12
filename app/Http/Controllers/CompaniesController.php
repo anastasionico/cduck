@@ -59,7 +59,7 @@ class CompaniesController extends Controller
             'website' => $request->get('website'),
         ]);
         
-        return redirect('/admin/companies/'.$company->id);
+        return redirect('/admin/companies/' . $company->id);
     }
 
     /**
@@ -104,12 +104,10 @@ class CompaniesController extends Controller
             'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|dimensions:min_width=100,min_height=100',
             'website' => 'url',
         ]);
-        
-
+       
         Company::findOrFail($id)->update($validatedData);
-
-
-        return redirect('/admin/companies/'.$id);
+        
+        return redirect('/admin/companies/' . $id);
     }
 
     /**

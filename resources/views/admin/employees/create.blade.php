@@ -26,7 +26,7 @@
 
     	<div class="form-group">
     		<label for="company">Company</label>
-            <select id="company" name="company">
+            <select id="company" name="company_id">
                 <option value=''>Unemployed</option>
                 @foreach($companies as $company)
                     <option value="{{$company->id}}">{{$company->name}}</option>

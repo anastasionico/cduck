@@ -40,7 +40,6 @@ class EmployeesController extends Controller
      */
     public function store(Request $request)
     {
-
         $request->validate([
             'first_name' => 'required|string',
             'last_name' => 'required|string',
@@ -57,7 +56,7 @@ class EmployeesController extends Controller
             'phone' => $request->get('phone')
         ]);
         
-        return redirect('/admin/employees/'.$employee->id);
+        return redirect('/admin/employees/' . $employee->id);
     }
 
     /**
@@ -79,7 +78,10 @@ class EmployeesController extends Controller
      */
     public function edit($id)
     {
-        return view("admin/employees/edit", ['employee' => Employee::findOrFail($id)]);
+        $companies = Company::all();
+        $employee = Employee::findOrFail($id);
+
+        return view("admin/employees/edit", compact('companies', 'employee'));
     }
 
     /**
@@ -89,9 +91,19 @@ class EmployeesController extends Controller
      * @param  \App\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Employee $employee)
+    public function update(Request $request, $id)
     {
-        //
+        $validatedData = $request->validate([
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'company_id' => 'integer||nullable',
+            'email' => 'email',
+            'phone' => 'string',
+        ]);
+        
+        Employee::findOrFail($id)->update($validatedData);
+        
+        return redirect('/admin/employees/' . $id);
     }
 
     /**
