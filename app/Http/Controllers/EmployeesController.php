@@ -112,8 +112,10 @@ class EmployeesController extends Controller
      * @param  \App\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Employee $employee)
-    {
-        //
+    public function destroy($id)
+    {   
+        Employee::findOrFail($id)->delete();
+
+        return redirect("/admin/employees");
     }
 }
