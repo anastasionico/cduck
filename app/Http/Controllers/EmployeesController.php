@@ -15,7 +15,7 @@ class EmployeesController extends Controller
      */
     public function index()
     {
-        $employees = Employee::all();
+        $employees = Employee::latest()->paginate(10);
         
         return view('admin/employees/index', compact('employees'));
     }
@@ -80,6 +80,7 @@ class EmployeesController extends Controller
     {
         $companies = Company::all();
         $employee = Employee::findOrFail($id);
+        // dd($companies);
 
         return view("admin/employees/edit", compact('companies', 'employee'));
     }

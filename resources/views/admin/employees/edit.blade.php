@@ -27,13 +27,19 @@
 
     	<div class="form-group">
     		<label for="company">Company</label>
-            <select id="company" name="company_id">
+            <select id="company" name="company_id"  class="form-control">
                 @foreach($companies as $company)
-					@if($company->id === $employee->company->id):
-						<option value="{{$employee->company->id}}" selected>{{$employee->company->name}}</option>
-					@else 
-						<option value="{{$company->id}}">{{$company->name}}</option>
-					@endif
+                    <option value="">Unemployed</option>
+                    @if(isset($employee->company->id) )
+                        @if($company->id === $employee->company->id):
+                            <option value="{{$employee->company->id}}" selected>{{$employee->company->name}}</option>
+                        @endif
+                    @else 
+                        <option value="{{$company->id}}">{{$company->name}}</option>
+                    @endif
+
+
+                    
 				@endforeach
             </select>
     		

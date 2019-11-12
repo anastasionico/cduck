@@ -20,7 +20,7 @@
 	</a>
 	
 	<div class="card w-50"> 
-	  	<img class="card-img-top" src="{{$company->logo}}" alt="Card image cap">
+	  	<img class="card-img-top" src="/img/{{$company->logo}}" alt="Card image cap">
 	  	<div class="card-body">
 		    <h5 class="card-title">{{$company->id}} {{$company->name}}</h5>
 		    <p class="card-text">{{$company->email}}</p>

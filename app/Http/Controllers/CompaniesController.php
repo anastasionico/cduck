@@ -40,17 +40,16 @@ class CompaniesController extends Controller
     {
         $request->validate([
             'name' => 'required|string',
-            'email' => 'unique:companies,email'
+            'email' => 'unique:companies,email',
             'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|dimensions:min_width=100,min_height=100',
             'website' => 'url',
         ]);
-
+        
         if ($image = $request->file('logo')) {
             $imageName = time().'.'.$request->logo->extension();  
-            $request->logo->move(public_path('logo'), $imageName);
+            $request->logo->move(public_path('img'), $imageName);
         }
     
-        
         
         $company = Company::create([
             'name' => $request->get('name'),
@@ -59,7 +58,7 @@ class CompaniesController extends Controller
             'website' => $request->get('website'),
         ]);
         
-        return redirect('/admin/companies/' . $company->id);
+        return redirect('/admin/companies/' . $company->id)->withFail('Error message');;
     }
 
     /**
@@ -105,8 +104,19 @@ class CompaniesController extends Controller
             'website' => 'url',
         ]);
        
-        Company::findOrFail($id)->update($validatedData);
-        
+
+        if ($image = $request->file('logo')) {
+            $imageName = time().'.'.$request->logo->extension();  
+            $request->logo->move(public_path('img'), $imageName);
+        }
+    
+        $company = Company::findOrFail($id)->update([
+            'name' => $request->get('name'),
+            'email' => $request->get('email'),
+            'logo' => $imageName,
+            'website' => $request->get('website'),
+        ]);
+
         return redirect('/admin/companies/' . $id);
     }
 
